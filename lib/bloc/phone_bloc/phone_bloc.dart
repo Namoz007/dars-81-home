@@ -7,6 +7,11 @@ class PhoneBloc extends Bloc<PhoneEvent,PhoneState>{
   final PhoneNumberRepositories _repositories;
   PhoneBloc({required PhoneNumberRepositories repo}) : _repositories = repo,super(InitialPhoneState()){
     on<SendSMSPhoneEvent>(_sendSMSToPhoneNumber);
+    on<CheckVerificationCodePhoneEvent>(_checkVerificationCode);
+  }
+
+  void _checkVerificationCode(CheckVerificationCodePhoneEvent event,emit){
+    emit(TrueVerificattionCodePhoneState());
   }
 
   void _sendSMSToPhoneNumber(SendSMSPhoneEvent event,emit){

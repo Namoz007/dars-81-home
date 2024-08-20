@@ -9,21 +9,34 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent,AuthenticationState>{
     on<StartAuthenticationEvent>(_startAuthentication);
     on<SignUpAuthenticationEvent>(_signUpAuthentication);
     on<LogInAuthenticationEvent>(_signInAuthentication);
+    on<ForgotPasswordAuthenticationEvent>(_forgotPassword);
+    on<LogOutAuthenticationEvent>(_logOutUser);
+  }
+
+  void _forgotPassword(ForgotPasswordAuthenticationEvent event,emit){
+    _repositories.resetPassword(event.email);
+    emit(LoadedAuthenticationState());
   }
 
   void _signInAuthentication(LogInAuthenticationEvent event,emit) async{
     emit(LoadingAuthenticationState());
-    await _repositories.signInUser(event.email, event.password);
-    emit(LoadedAuthenticationState());
+    final response = await _repositories.signInUser(event.query);
+    emit(ErrorAuthenticationState(response));
   }
 
   void _signUpAuthentication(SignUpAuthenticationEvent event,emit) async{
     emit(LoadingAuthenticationState());
-    await _repositories.signUpUser(event.email, event.password);
-    emit(LoadedAuthenticationState());
+    final response = await _repositories.signUpUser(event.query);
+    emit(ErrorAuthenticationState(response));
   }
 
   void _startAuthentication(StartAuthenticationEvent event,emit){
     emit(LoadedAuthenticationState());
+  }
+
+  void _logOutUser(LogOutAuthenticationEvent event,emit) {
+    emit(LoadingAuthenticationState());
+    _repositories.logOut();
+    emit(InitialAuthenticationState());
   }
 }

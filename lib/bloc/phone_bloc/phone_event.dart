@@ -5,3 +5,9 @@ final class SendSMSPhoneEvent extends PhoneEvent{
 
   SendSMSPhoneEvent(this.phoneNumber);
 }
+
+final class CheckVerificationCodePhoneEvent extends PhoneEvent{
+  String code;
+
+  CheckVerificationCodePhoneEvent(this.code);
+}

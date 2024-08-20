@@ -29,12 +29,7 @@ class _TextFieldForPhoneState extends State<TextFieldForPhone> {
               return "Please,return enter phone number";
             }
 
-            try{
-              int.parse(value);
-              return null;
-            }catch(e){
-              return "Phone number type not number";
-            }
+            return null;
           },
           onInputChanged: (PhoneNumber number) {
             _dialCode = number.dialCode.toString();
@@ -57,35 +52,6 @@ class _TextFieldForPhoneState extends State<TextFieldForPhone> {
         ),
 
         const SizedBox(height: 40,),
-        BlocBuilder<PhoneBloc, PhoneState>(
-          builder: (context, state) {
-
-            if(state is InitialPhoneState){
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                    onTap: (){
-                      context.read<PhoneBloc>().add(SendSMSPhoneEvent("${_dialCode}${widget.phoneController.text}"));
-                    },
-                    child:  Container(
-                      width: 120,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(15,),
-                      ),
-                      alignment: Alignment.center,
-                      child: const Text("Send Code",style: TextStyle(fontSize: 16,color: Colors.white,),),
-                    ),
-                  )
-                ],
-              );
-            }
-
-            return const SizedBox();
-          },
-        ),
       ],
     );
   }
