@@ -22,7 +22,7 @@ class DioFile {
 class DioInterceptors extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if(options.uri.toString() == "${options.baseUrl}/user" || options.uri.toString() == "${options.baseUrl}/profile/update"){
+    if(options.uri.toString() != "${options.baseUrl}/login" && options.uri.toString() != "${options.baseUrl}/register"){
       final pref = await SharedPreferences.getInstance();
       final token = pref.getString("token");
       options.headers["Authorization"] = 'Bearer $token';

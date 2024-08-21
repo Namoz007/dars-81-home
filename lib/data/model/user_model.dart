@@ -28,4 +28,16 @@ class UserModel {
       photo: json['photo'] ?? '',
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'role_id': roleId,
+      'role_name': roleName,
+      'photo': photo,
+    };
+  }
 }

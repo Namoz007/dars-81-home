@@ -3,7 +3,9 @@ import 'package:dars_81_home/bloc/user_bloc/user_bloc_event.dart';
 import 'package:dars_81_home/bloc/user_bloc/user_bloc_state.dart';
 import 'package:dars_81_home/main.dart';
 import 'package:dars_81_home/ui/widgets/dashboard/appbar_title.dart';
+import 'package:dars_81_home/ui/widgets/dashboard/custom_drawer.dart';
 import 'package:dars_81_home/ui/widgets/dashboard/show_workloads.dart';
+import 'package:dars_81_home/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,6 +43,7 @@ class _DashboardState extends State<Dashboard> {
           child: AppbarTitle(screenTitle: 'dashboard',),
         ),
       ),
+      drawer: CustomDrawer(),
       body: SingleChildScrollView(
         child: BlocBuilder<UserBloc, UserBlocState>(
           builder: (context, state) {
@@ -50,6 +53,7 @@ class _DashboardState extends State<Dashboard> {
             }
         
             if(state is LoadedUserBlocState){
+              AppUtils.userModel = state.model;
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

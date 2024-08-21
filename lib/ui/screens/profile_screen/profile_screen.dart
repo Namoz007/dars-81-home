@@ -41,11 +41,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.all(20),
           child: BlocBuilder<UserBloc, UserBlocState>(
             builder: (context, state) {
-          
+
               if(state is LoadingUserBlocState){
                 return const Center(child: CircularProgressIndicator(color: Colors.red,),);
               }
-          
+
               if(state is LoadedUserBlocState){
                 return Column(
                   children: [
@@ -68,10 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               if(state is ErrorUserBlocState){
                 return Center(child: Text("${state.message}"),);
               }
-          
-          
-          
-          
+
               return Container();
             },
           ),

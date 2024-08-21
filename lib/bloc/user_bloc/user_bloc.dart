@@ -16,7 +16,9 @@ class UserBloc extends Bloc<UserBlocEvent,UserBlocState>{
   void _updateProfile(UpdateMyUserBlocEvent event,emit) async{
     emit(LoadingUserBlocState());
     await _repositories.updateProfile(event.name, event.email, event.phoneNumber, event.imgFile);
-    add(GetMyUserBlocEvent());
+    model!.email = event.email;
+    model!.name = event.name;
+    model!.phone = event.phoneNumber;
     emit(LoadedUserBlocState(model!));
   }
 

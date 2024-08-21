@@ -29,5 +29,20 @@ class UserServices {
       "email": email,
       "phone": phoneNumber,
     });
+
+    if(file != null){
+      FormData formData = FormData.fromMap({
+        "file": await MultipartFile.fromFile(
+          file!.path,
+          filename: 'new',
+        ),
+      });
+
+      final response = await _dio.post(
+        "/profile/update",
+        data: formData,
+      );
+      print("bu response ${response.data}");
+    }
   }
 }
