@@ -5,6 +5,7 @@ class UserModel {
   String phone;
   int roleId;
   String roleName;
+  String photo;
 
   UserModel({
     required this.id,
@@ -13,6 +14,7 @@ class UserModel {
     required this.phone,
     required this.roleId,
     required this.roleName,
+    required this.photo,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class UserModel {
       phone: json['phone'],
       roleId: json['role_id'],
       roleName: json['role']['name'],
+      photo: json['photo'] ?? '',
     );
   }
 }

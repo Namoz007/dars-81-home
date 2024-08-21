@@ -18,7 +18,6 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   final pref = await SharedPreferences.getInstance();
   final token = pref.getString("token");
-  print("bu token $token");
   runApp(MyApp(userIsFind: token != '' && token != null ? true : false,));
 }
 

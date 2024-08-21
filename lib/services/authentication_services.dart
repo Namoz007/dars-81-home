@@ -1,35 +1,42 @@
 import 'dart:convert';
 
 import 'package:dars_81_home/data/model/registration_request.dart';
+import 'package:dars_81_home/services/dio_file.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthenticationServices{
-  final _url = "http://millima.flutterwithakmaljon.uz";
-  final _dio = Dio();
+class AuthenticationServices {
+  final _dio = DioFile.getInstance().dio;
 
-  Future<String> signInOrSignUp(RegistrationRequest request,String query) async {
+  Future<String> signInOrSignUp(
+      RegistrationRequest request, String query) async {
     dynamic response = '';
     try {
-      if(query == 'signin'){
-        response = await _dio.post("${_url}/api/login",data: {
-          "phone": request.phoneNumber,
-          "password": request.password,
-        });
-      }else{
-        response = await _dio.post("${_url}/api/register",data: request.toMap());
+      if (query == 'signin') {
+        response = await _dio.post(
+          "/login",
+          data: {
+            "phone": request.phoneNumber,
+            "password": request.password,
+          },
+        );
+      } else {
+        response = await _dio.post("/register", data: request.toMap());
       }
       final pref = await SharedPreferences.getInstance();
       pref.setString("token", response.data['data']['token']);
-    }on DioException catch(e){
+    } on DioException catch (e) {
+      print("bu dio xato $e");
       return e.toString();
-    }catch(e){
+    } catch (e) {
+      print("bu oddiy xato $e");
       return e.toString();
     }
+    print("tugadi");
     return '';
   }
 
-  Future<String> resetPasswords(String email) async{
+  Future<String> resetPasswords(String email) async {
     return '';
   }
 
@@ -39,10 +46,7 @@ class AuthenticationServices{
     prefs.remove("token");
     try {
       final response = await _dio.post(
-        "http://millima.flutterwithakmaljon.uz/api/logout",
-        options: Options(
-          headers: {"Authorization": 'Bearer ${token}'},
-        ),
+        "/logout",
       );
       await prefs.remove('userData');
       final a = prefs.getString("token");
@@ -53,5 +57,4 @@ class AuthenticationServices{
       rethrow;
     }
   }
-
 }

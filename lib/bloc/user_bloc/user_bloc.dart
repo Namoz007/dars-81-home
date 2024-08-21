@@ -10,6 +10,14 @@ class UserBloc extends Bloc<UserBlocEvent,UserBlocState>{
 
   UserBloc({required UserRepositories repo}) : _repositories = repo,super(InitialUserBlocState()){
     on<GetMyUserBlocEvent>(_getMyUser);
+    on<UpdateMyUserBlocEvent>(_updateProfile);
+  }
+
+  void _updateProfile(UpdateMyUserBlocEvent event,emit) async{
+    emit(LoadingUserBlocState());
+    await _repositories.updateProfile(event.name, event.email, event.phoneNumber, event.imgFile);
+    add(GetMyUserBlocEvent());
+    emit(LoadedUserBlocState(model!));
   }
 
   void _getMyUser(GetMyUserBlocEvent event,emit) async{

@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+    <string>Biz sizning kamerangizdan surat olish uchun foydalanamiz.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Biz sizning galereyangizdan suratlarni yuklash uchun foydalanamiz.</string>
 </dict>
 </plist>

@@ -1,21 +1,33 @@
+import 'dart:io';
+
 import 'package:dars_81_home/data/model/user_model.dart';
+import 'package:dars_81_home/services/dio_file.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserServices {
-  final _url = "http://millima.flutterwithakmaljon.uz";
-  final _dio = Dio();
+  final _dio = DioFile.getInstance().dio;
 
   Future<UserModel> getMyUser() async {
-    final pref = await SharedPreferences.getInstance();
-    final token = pref.getString("token");
-    final response = await _dio.get(
-      "${_url}/api/user",
-      options: Options(
-        headers: {"Authorization": 'Bearer ${token}'},
-      ),
-    );
+    dynamic response = '';
+    try{
+      response = await _dio.get(
+        "/user",
+      );
 
+    }on DioException catch(e){
+      print("dio xatosi $e");
+    }catch(e){
+      print('Bu oddi xato $e');
+    }
     return UserModel.fromJson(response.data['data']);
+  }
+
+  Future<void> updateProfile(String name,String email,String phoneNumber,File? file,) async{
+    final response = await _dio.post("/profile/update",data: {
+      "name": name,
+      "email": email,
+      "phone": phoneNumber,
+    });
   }
 }
