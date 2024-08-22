@@ -3,6 +3,7 @@ import 'package:dars_81_home/bloc/authentication/authentication_bloc.dart';
 import 'package:dars_81_home/main.dart';
 import 'package:dars_81_home/ui/screens/dashboards/dashboard.dart';
 import 'package:dars_81_home/ui/screens/profile_screen/profile_screen.dart';
+import 'package:dars_81_home/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -44,9 +45,11 @@ class _AppbarTitleState extends State<AppbarTitle> {
               child: Container(
                 height: 40,
                 width: 40,
-                decoration: const BoxDecoration(
+                decoration:  BoxDecoration(
                   shape: BoxShape.circle,
-                  image: DecorationImage(image: NetworkImage("https://klike.net/uploads/posts/2023-01/1674365337_3-31.jpg"),),
+                  image: DecorationImage(image: NetworkImage(AppUtils.userModel?.photo == null
+                      ? "https://klike.net/uploads/posts/2023-01/1674365337_3-31.jpg"
+                      : "http://millima.flutterwithakmaljon.uz/storage/avatars/${AppUtils.userModel!.photo}"),fit: BoxFit.cover),
                 ),
               ),
             )

@@ -1,8 +1,13 @@
+import 'package:dars_81_home/bloc/authentication/authentIcation_event.dart';
+import 'package:dars_81_home/bloc/authentication/authentication_bloc.dart';
+import 'package:dars_81_home/main.dart';
 import 'package:dars_81_home/ui/screens/admin_screen/admin_screen.dart';
+import 'package:dars_81_home/ui/screens/authentication/sign_in_screen.dart';
 import 'package:dars_81_home/ui/screens/dashboards/dashboard.dart';
 import 'package:dars_81_home/ui/screens/groups_screen/groups_screen.dart';
 import 'package:dars_81_home/utils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -47,6 +52,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
           ),
 
+          InkWell(
+            onTap: (){
+              context.read<AuthenticationBloc>().add(LogOutAuthenticationEvent());
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+            },
+            child: const ListTile(
+              title: Text("Logout"),
+              trailing: Icon(Icons.logout),
+            ),
+          ),
         ],
       ),
     );

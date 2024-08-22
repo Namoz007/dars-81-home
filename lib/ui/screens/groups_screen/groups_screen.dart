@@ -19,7 +19,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<AdminBloc>().add(GetAllMyGroupsAdminBlocEvent());
+    if(AppUtils.userModel!.roleId == 3){
+      context.read<AdminBloc>().add(GetAllMyTeachersStudentsAdminBlocEvent());
+    }else{
+      context.read<AdminBloc>().add(GetAllMyGroupsAdminBlocEvent());
+    }
   }
 
   @override
@@ -31,7 +35,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
         actions: [
           AppUtils.userModel!.roleId == 3 ? InkWell(
             onTap: (){
-              showDialog(context: context, builder: (context) => UpdateGroup(isUpdate: false));
+              showDialog(context: context, builder: (context) => UpdateGroup(isUpdate: false),barrierDismissible: false);
             },
             child: const Icon(Icons.add),
           ) : const SizedBox(),
@@ -50,7 +54,16 @@ class _GroupsScreenState extends State<GroupsScreen> {
           }
 
           if (state is LoadedAllGroups) {
-            return ListView.builder(
+            return state.groups.length == 0 ? const Center(child: Text("Your groups not found!"),): ListView.builder(
+              itemCount: state.groups.length,
+              itemBuilder: (context, index) {
+                return ShowGroup(group: state.groups[index],);
+              },
+            );
+          }
+
+          if (state is LoadedAllTeachersStudentsAdminBlocState) {
+            return state.groups.length == 0 ? const Center(child: Text("Your groups not found!"),): ListView.builder(
               itemCount: state.groups.length,
               itemBuilder: (context, index) {
                 return ShowGroup(group: state.groups[index],);

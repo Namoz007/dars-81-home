@@ -14,7 +14,6 @@ class UserServices {
       response = await _dio.get(
         "/user",
       );
-
     }on DioException catch(e){
       print("dio xatosi $e");
     }catch(e){
@@ -24,18 +23,16 @@ class UserServices {
   }
 
   Future<void> updateProfile(String name,String email,String phoneNumber,File? file,) async{
-    final response = await _dio.post("/profile/update",data: {
-      "name": name,
-      "email": email,
-      "phone": phoneNumber,
-    });
+    try{
 
-    if(file != null){
       FormData formData = FormData.fromMap({
-        "file": await MultipartFile.fromFile(
+        "photo": await MultipartFile.fromFile(
           file!.path,
-          filename: 'new',
+          filename: 'new.jpg',
         ),
+        "name": name,
+        "email": email,
+        "phone": phoneNumber,
       });
 
       final response = await _dio.post(
@@ -43,6 +40,10 @@ class UserServices {
         data: formData,
       );
       print("bu response ${response.data}");
+    }on DioException catch(e){
+      print("dio xato ${e.response?.data}");
+    }catch(e){
+      print("oddiy xato $e");
     }
   }
 }

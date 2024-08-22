@@ -39,7 +39,7 @@ class _ShowGroupState extends State<ShowGroup> {
               AppUtils.userModel!.roleId == 3
                   ? InkWell(
                 onTap: (){
-                  showDialog(context: context, builder: (context) => UpdateGroup(isUpdate: true,group: widget.group,));
+                  showDialog(context: context, builder: (context) => UpdateGroup(isUpdate: true,group: widget.group,),barrierDismissible: false);
                 },
                       child: const Icon(Icons.edit_calendar),
                     )

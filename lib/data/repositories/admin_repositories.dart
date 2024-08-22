@@ -1,4 +1,5 @@
 import 'package:dars_81_home/data/model/group.dart';
+import 'package:dars_81_home/data/model/teacher.dart';
 import 'package:dars_81_home/data/model/user_model.dart';
 import 'package:dars_81_home/services/admin_services.dart';
 import 'package:dars_81_home/utils/app_utils.dart';
@@ -13,9 +14,22 @@ class AdminRepositories{
   }
 
   Future<List<Group>> getAllMyGroups() async{
-    if(AppUtils.userModel!.roleId == 3){
-      return await _services.getAllGroups();
-    }
-    return [];
+    return await _services.getAllGroups();
+  }
+
+  Future<List<Teacher>> getAllMyTeachers() async{
+    return await _services.getAllTeachers();
+  }
+
+  Future<List<Student>> getAllStudent() async{
+    return await _services.getAllStudent();
+  }
+
+  Future<Group> createGroup(Group group) async{
+    return await _services.createGroup(group);
+  }
+
+  Future<void> updateGroup(Group group) async{
+    await _services.updateGroup(group);
   }
 }

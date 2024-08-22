@@ -6,6 +6,8 @@ import 'package:dars_81_home/ui/widgets/profile/title_for_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../bloc/user_bloc/user_bloc_event.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -36,7 +38,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         toolbarHeight: 100,
       ),
-      body: SingleChildScrollView(
+      body: RefreshIndicator(
+        onRefresh: () async{
+          context.read<UserBloc>().add(RefreshMyUserUserBlocEvent());
+        },
+        child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: BlocBuilder<UserBloc, UserBlocState>(
@@ -64,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 );
               }
-          
+
               if(state is ErrorUserBlocState){
                 return Center(child: Text("${state.message}"),);
               }
@@ -73,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
           ),
         ),
-      ),
+      ),),
     );
   }
 }

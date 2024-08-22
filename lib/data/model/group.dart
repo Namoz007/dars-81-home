@@ -2,14 +2,14 @@ import 'package:dars_81_home/data/model/teacher.dart';
 
 class Group {
   final int id;
-  final String name;
-  final int mainTeacherId;
-  final int assistantTeacherId;
+  String name;
+  int mainTeacherId;
+  int assistantTeacherId;
   final DateTime createdAt;
-  final DateTime updatedAt;
-  final Teacher mainTeacher;
-  final Teacher assistantTeacher;
-  final List<Student> students;
+  DateTime updatedAt;
+  Teacher mainTeacher;
+  Teacher assistantTeacher;
+  List<Student> students;
 
   Group({
     required this.id,
@@ -49,7 +49,7 @@ class Group {
       updatedAt: DateTime.parse(json['updated_at']),
       mainTeacher: Teacher.fromJson(json['main_teacher']),
       assistantTeacher: Teacher.fromJson(json['assistant_teacher']),
-      students: (json['students'] as List)
+      students: json['students'] == null ? [] : (json['students'] as List)
           .map((studentJson) => Student.fromJson(studentJson))
           .toList(),
     );

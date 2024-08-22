@@ -26,13 +26,10 @@ class AuthenticationServices {
       final pref = await SharedPreferences.getInstance();
       pref.setString("token", response.data['data']['token']);
     } on DioException catch (e) {
-      print("bu dio xato $e");
       return e.toString();
     } catch (e) {
-      print("bu oddiy xato $e");
       return e.toString();
     }
-    print("tugadi");
     return '';
   }
 
@@ -42,14 +39,12 @@ class AuthenticationServices {
 
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString("token").toString();
     prefs.remove("token");
     try {
       final response = await _dio.post(
         "/logout",
       );
       await prefs.remove('userData');
-      final a = prefs.getString("token");
     } on DioException {
       rethrow;
     } catch (e) {

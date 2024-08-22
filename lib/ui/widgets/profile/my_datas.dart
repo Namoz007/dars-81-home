@@ -28,7 +28,7 @@ class _MyDatasState extends State<MyDatas> {
   final ImagePicker _picker = ImagePicker();
   Future<void> _pickImage(ImageSource source) async {
     try {
-      final XFile? pickedImage = await _picker.pickImage(source: source);
+      final XFile? pickedImage = await _picker.pickImage(source: source,maxWidth: 200,imageQuality: 50,);
       if (pickedImage != null) {
         setState(() {
           _image = File(pickedImage.path);
@@ -64,7 +64,8 @@ class _MyDatasState extends State<MyDatas> {
                   image: DecorationImage(
                     image: NetworkImage(widget.model.photo == ""
                         ? "https://klike.net/uploads/posts/2023-01/1674365337_3-31.jpg"
-                        : widget.model.photo),
+                        : "http://millima.flutterwithakmaljon.uz/storage/avatars/${widget.model.photo}"),
+                    fit: BoxFit.cover,
                   ),
                   shape: BoxShape.circle,
                 ),

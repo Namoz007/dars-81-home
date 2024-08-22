@@ -12,3 +12,5 @@ final class UpdateMyUserBlocEvent extends UserBlocEvent{
 
   UpdateMyUserBlocEvent({required this.email,required this.phoneNumber,required this.name,this.imgFile,});
 }
+
+final class RefreshMyUserUserBlocEvent extends UserBlocEvent{}
