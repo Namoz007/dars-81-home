@@ -12,12 +12,12 @@ class UserRepositories {
     return await _services.getMyUser();
   }
 
-  Future<void> updateProfile(
+  Future<String?> updateProfile(
     String name,
     String email,
     String phoneNumber,
     File? file,
   ) async {
-    _services.updateProfile(name, email, phoneNumber, file);
+    return _services.updateProfile(name, email, phoneNumber, file);
   }
 }

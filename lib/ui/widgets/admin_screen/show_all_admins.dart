@@ -26,7 +26,7 @@ class _ShowAllAdminsState extends State<ShowAllAdmins> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return widget.users.length == 0 ? const Center(child: Text("Admins not found!"),) : ListView.builder(
       itemCount: widget.users.length,
       itemBuilder: (context, index) {
         return ShowUserForAdmin(user: widget.users[index]);

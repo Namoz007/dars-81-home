@@ -1,9 +1,9 @@
 import 'package:dars_81_home/bloc/admin_bloc/admin_bloc.dart';
 import 'package:dars_81_home/bloc/admin_bloc/admin_bloc_event.dart';
 import 'package:dars_81_home/bloc/admin_bloc/admin_bloc_state.dart';
-import 'package:dars_81_home/ui/screens/admin_screen/show_all_admins.dart';
-import 'package:dars_81_home/ui/screens/admin_screen/show_all_students.dart';
-import 'package:dars_81_home/ui/screens/admin_screen/show_all_teachers.dart';
+import 'package:dars_81_home/ui/widgets/admin_screen/show_all_admins.dart';
+import 'package:dars_81_home/ui/widgets/admin_screen/show_all_students.dart';
+import 'package:dars_81_home/ui/widgets/admin_screen/show_all_teachers.dart';
 import 'package:dars_81_home/ui/widgets/dashboard/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

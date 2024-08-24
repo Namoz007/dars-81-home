@@ -10,40 +10,54 @@ class UserServices {
 
   Future<UserModel> getMyUser() async {
     dynamic response = '';
-    try{
+    try {
       response = await _dio.get(
         "/user",
       );
-    }on DioException catch(e){
+    } on DioException catch (e) {
       print("dio xatosi $e");
-    }catch(e){
+    } catch (e) {
       print('Bu oddi xato $e');
     }
     return UserModel.fromJson(response.data['data']);
   }
 
-  Future<void> updateProfile(String name,String email,String phoneNumber,File? file,) async{
-    try{
-
-      FormData formData = FormData.fromMap({
-        "photo": await MultipartFile.fromFile(
-          file!.path,
-          filename: 'new.jpg',
-        ),
-        "name": name,
-        "email": email,
-        "phone": phoneNumber,
-      });
-
-      final response = await _dio.post(
-        "/profile/update",
-        data: formData,
-      );
-      print("bu response ${response.data}");
-    }on DioException catch(e){
+  Future<String?> updateProfile(
+    String name,
+    String email,
+    String phoneNumber,
+    File? file,
+  ) async {
+    try {
+      dynamic response = '';
+      if (file != null) {
+        FormData formData = FormData.fromMap({
+          "photo": await MultipartFile.fromFile(
+            file.path,
+            filename: 'new.jpg',
+          ),
+          "name": name,
+          "email": email,
+          "phone": phoneNumber,
+        });
+        response = await _dio.post("/profile/update",data: formData);
+      } else {
+        response = await _dio.post(
+          "/profile/update",
+          data: FormData.fromMap(
+            {
+              "name": name,
+              "email": email,
+              "phone": phoneNumber,
+            },
+          ),
+        );
+      }
+      return response.data['data']['photo'];
+    } on DioException catch (e) {
       print("dio xato ${e.response?.data}");
-    }catch(e){
-      print("oddiy xato $e");
+    } catch (e) {
+      print("oddiy xato ${e}");
     }
   }
 }

@@ -1,16 +1,14 @@
-class RegistrationRequest {
+class RegistrationModel {
   String name;
   String phoneNumber;
   String password;
-  String confirmPassword;
-  String? roleId;
+  int roleId;
 
-  RegistrationRequest({
+  RegistrationModel({
     required this.name,
     required this.phoneNumber,
     required this.password,
-    required this.confirmPassword,
-    this.roleId,
+    this.roleId = 1,
   });
 
   Map<String,dynamic> toMap(){
@@ -18,8 +16,8 @@ class RegistrationRequest {
       "name": name,
       "phone": phoneNumber,
       "password": password,
-      "password_confirmation": confirmPassword,
-      "role_id": roleId ?? 1
+      "password_confirmation": password,
+      "role_id": roleId,
     };
   }
 }

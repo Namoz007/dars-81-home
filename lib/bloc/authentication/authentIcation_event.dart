@@ -1,19 +1,22 @@
-import 'package:dars_81_home/data/model/registration_request.dart';
+import 'package:dars_81_home/data/model/login_request_model.dart';
+import 'package:dars_81_home/data/model/registration_model.dart';
 
 sealed class AuthenticationEvent{}
 
 final class StartAuthenticationEvent extends AuthenticationEvent{}
 
 final class LogInAuthenticationEvent extends AuthenticationEvent{
-  RegistrationRequest query;
+  LoginRequestModel requestModel;
 
-  LogInAuthenticationEvent({required this.query,});
+  LogInAuthenticationEvent({required this.requestModel,});
 }
 
-final class SignUpAuthenticationEvent extends AuthenticationEvent{
-  RegistrationRequest query;
+final class ClearErrorMessageAuthenticationEvent extends AuthenticationEvent{}
 
-  SignUpAuthenticationEvent({required this.query});
+final class SignUpAuthenticationEvent extends AuthenticationEvent{
+  RegistrationModel model;
+
+  SignUpAuthenticationEvent({required this.model});
 }
 
 final class ForgotPasswordAuthenticationEvent extends AuthenticationEvent{

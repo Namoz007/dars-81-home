@@ -9,13 +9,14 @@ class AdminRepositories{
 
   AdminRepositories({required AdminServices services}) : _services = services;
 
+  Future<void> deleteGroup(int id) async{
+    await _services.deleteGroup(id);
+  }
+
   Future<List<UserModel>> getAllUsers() async{
     return await _services.getAllUsers();
   }
 
-  Future<List<Group>> getAllMyGroups() async{
-    return await _services.getAllGroups();
-  }
 
   Future<List<Teacher>> getAllMyTeachers() async{
     return await _services.getAllTeachers();
@@ -25,11 +26,4 @@ class AdminRepositories{
     return await _services.getAllStudent();
   }
 
-  Future<Group> createGroup(Group group) async{
-    return await _services.createGroup(group);
-  }
-
-  Future<void> updateGroup(Group group) async{
-    await _services.updateGroup(group);
-  }
 }

@@ -10,11 +10,13 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 class RegistrationPhoneInputs extends StatefulWidget {
   TextEditingController phoneNumberController;
   PhoneNumber initialNumber;
+  TextEditingController countryCode;
 
   RegistrationPhoneInputs({
     super.key,
     required this.phoneNumberController,
     required this.initialNumber,
+    required this.countryCode,
   });
 
   @override
@@ -44,6 +46,7 @@ class _RegistrationPhoneInputsState extends State<RegistrationPhoneInputs> {
           TextFieldForPhone(
             number: widget.initialNumber,
             phoneController: widget.phoneNumberController,
+            countryCode: widget.countryCode,
           ),
         ],
       ),

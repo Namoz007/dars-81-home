@@ -5,6 +5,7 @@ import 'package:dars_81_home/ui/widgets/profile/my_datas.dart';
 import 'package:dars_81_home/ui/widgets/profile/title_for_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../bloc/user_bloc/user_bloc_event.dart';
 
@@ -49,7 +50,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             builder: (context, state) {
 
               if(state is LoadingUserBlocState){
-                return const Center(child: CircularProgressIndicator(color: Colors.red,),);
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.white,
+                  child: Container(
+                    width: double.infinity,
+                    height: 750,
+                    color: Colors.black,
+                  ),
+                );
               }
 
               if(state is LoadedUserBlocState){

@@ -1,6 +1,8 @@
 import 'package:dars_81_home/bloc/admin_bloc/admin_bloc.dart';
 import 'package:dars_81_home/bloc/admin_bloc/admin_bloc_event.dart';
 import 'package:dars_81_home/bloc/admin_bloc/admin_bloc_state.dart';
+import 'package:dars_81_home/bloc/group_bloc/group_bloc.dart';
+import 'package:dars_81_home/bloc/group_bloc/group_bloc_event.dart';
 import 'package:dars_81_home/data/model/group.dart';
 import 'package:dars_81_home/data/model/teacher.dart';
 import 'package:dars_81_home/data/model/user_model.dart';
@@ -58,16 +60,15 @@ class _UpdateGroupState extends State<UpdateGroup> {
                   .firstWhere((teacher) => teacher.id != _mainTeacher?.id);
             }
 
-            print("bu studentlar ${state.students}");
-
             List<Teacher> availableTeachers = state.teachers
                 .where((teacher) =>
                     teacher.id != _mainTeacher?.id &&
                     teacher.id != _assistantTeacher?.id)
                 .toList();
 
-            return state.teachers.isEmpty || state.students.isEmpty
+            return state.teachers.length < 2 || state.students.isEmpty
                 ? const Center(
+                    widthFactor: 100,
                     child: Text(
                       "You cannot create a group",
                       style: TextStyle(
@@ -246,22 +247,21 @@ class _UpdateGroupState extends State<UpdateGroup> {
                 widget.group!.mainTeacherId = _mainTeacher!.id;
                 widget.group!.assistantTeacherId = _assistantTeacher!.id;
                 context
-                    .read<AdminBloc>()
-                    .add(UpdateGroupAdminBlocEvent(widget.group!));
+                    .read<GroupBloc>()
+                    .add(UpdateGroupBlocEvent(widget.group!));
               } else {
                 final group = Group(
-                    id: 0,
-                    name: _groupNewName.text,
-                    mainTeacherId: _mainTeacher!.id,
-                    assistantTeacherId: _assistantTeacher!.id,
-                    createdAt: DateTime.now(),
-                    updatedAt: DateTime.now(),
-                    mainTeacher: _mainTeacher!,
-                    assistantTeacher: _assistantTeacher!,
-                    students: _students);
-                context
-                    .read<AdminBloc>()
-                    .add(CreateNewGroupAdminBlocEvent(group));
+                  id: 0,
+                  name: _groupNewName.text,
+                  mainTeacherId: _mainTeacher!.id,
+                  assistantTeacherId: _assistantTeacher!.id,
+                  createdAt: DateTime.now(),
+                  updatedAt: DateTime.now(),
+                  mainTeacher: _mainTeacher!,
+                  assistantTeacher: _assistantTeacher!,
+                  students: _students,
+                );
+                context.read<GroupBloc>().add(CreateNewGroupBlocEvent(group));
               }
               Navigator.pop(context);
             }

@@ -1,6 +1,8 @@
 import 'package:dars_81_home/bloc/user_bloc/user_bloc.dart';
 import 'package:dars_81_home/bloc/user_bloc/user_bloc_event.dart';
 import 'package:dars_81_home/bloc/user_bloc/user_bloc_state.dart';
+import 'package:dars_81_home/bloc/working_hour_bloc/working_bloc.dart';
+import 'package:dars_81_home/bloc/working_hour_bloc/working_bloc_event.dart';
 import 'package:dars_81_home/main.dart';
 import 'package:dars_81_home/ui/widgets/dashboard/appbar_title.dart';
 import 'package:dars_81_home/ui/widgets/dashboard/custom_drawer.dart';
@@ -21,6 +23,7 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
     context.read<UserBloc>().add(GetMyUserBlocEvent());
+    context.read<WorkingBloc>().add(GetMyWorkingBlocEvent());
   }
 
   @override

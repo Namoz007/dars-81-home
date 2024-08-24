@@ -6,25 +6,24 @@ import 'package:dars_81_home/ui/widgets/admin_screen/show_user_for_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShowAllStudents extends StatefulWidget {
+class ShowAllTeachers extends StatefulWidget {
   List<UserModel> users;
-  ShowAllStudents({super.key, required this.users});
+  ShowAllTeachers({super.key,required this.users});
 
   @override
-  State<ShowAllStudents> createState() => _ShowAllStudentsState();
+  State<ShowAllTeachers> createState() => _ShowAllTeachersState();
 }
 
-class _ShowAllStudentsState extends State<ShowAllStudents> {
-  
+class _ShowAllTeachersState extends State<ShowAllTeachers> {
   @override
   void initState() {
     super.initState();
-    context.read<AdminBloc>().add(GetAllStudentAdminBlocEvent());
+    context.read<AdminBloc>().add(GetAllTeacherAdminBlocEvent());
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return widget.users.length == 0 ? const Center(child: Text('Teachers not found'),) : ListView.builder(
       itemCount: widget.users.length,
       itemBuilder: (context, index) {
         return ShowUserForAdmin(user: widget.users[index]);

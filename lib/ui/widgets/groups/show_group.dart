@@ -1,7 +1,13 @@
+import 'package:dars_81_home/bloc/admin_bloc/admin_bloc.dart';
+import 'package:dars_81_home/bloc/admin_bloc/admin_bloc_event.dart';
+import 'package:dars_81_home/bloc/group_bloc/group_bloc.dart';
+import 'package:dars_81_home/bloc/group_bloc/group_bloc_event.dart';
 import 'package:dars_81_home/data/model/group.dart';
-import 'package:dars_81_home/ui/widgets/admin_screen/update_group.dart';
+import 'package:dars_81_home/main.dart';
+import 'package:dars_81_home/ui/widgets/groups/update_group.dart';
 import 'package:dars_81_home/utils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShowGroup extends StatefulWidget {
   Group group;
@@ -30,7 +36,10 @@ class _ShowGroupState extends State<ShowGroup> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(),
+              AppUtils.userModel!.roleId == 3 ? InkWell(onTap: (){
+                context.read<GroupBloc>().add(DeleteGroupGroupBlocEvent(widget.group.id));
+                // context.read<AdminBloc>().add(DeleteGroupAdminBlocEvent(widget.group.id));
+              },child: const Icon(Icons.delete,color: Colors.red,),) : const SizedBox(),
               Text(
                 "${widget.group.name}",
                 style:

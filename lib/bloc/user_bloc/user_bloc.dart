@@ -13,6 +13,17 @@ class UserBloc extends Bloc<UserBlocEvent,UserBlocState>{
     on<GetMyUserBlocEvent>(_getMyUser);
     on<UpdateMyUserBlocEvent>(_updateProfile);
     on<RefreshMyUserUserBlocEvent>(_refreshMyUser);
+    on<LogOutUserBlocEvent>(_logOutUser);
+    on<ComedUserBlocEvent>(_comedUser);
+  }
+
+  void _comedUser(ComedUserBlocEvent event,emit){
+    model = event.userModel;
+    emit(LoadedUserBlocState(model!));
+  }
+
+  void _logOutUser(LogOutUserBlocEvent event,emit) {
+    model = null;
   }
 
   void _refreshMyUser(RefreshMyUserUserBlocEvent event,emit) async{
@@ -24,17 +35,19 @@ class UserBloc extends Bloc<UserBlocEvent,UserBlocState>{
 
   void _updateProfile(UpdateMyUserBlocEvent event,emit) async{
     emit(LoadingUserBlocState());
-    await _repositories.updateProfile(event.name, event.email, event.phoneNumber, event.imgFile);
-    if(event.imgFile == null){
-      emit(LoadingUserBlocState());
-      model = await _repositories.getMyUser();
+    if(event.imgFile != null && event.email == null){
+      emit(ErrorUserBlocState("Email value not find!"));
     }else{
+      final imgUrl = await _repositories.updateProfile(event.name, event.email, event.phoneNumber, event.imgFile);
+      if(imgUrl != null){
+        model!.photo = imgUrl;
+      }
       model!.email = event.email;
       model!.name = event.name;
       model!.phone = event.phoneNumber;
+      AppUtils.userModel = model;
+      emit(LoadedUserBlocState(model!));
     }
-    AppUtils.userModel = model;
-    emit(LoadedUserBlocState(model!));
   }
 
   void _getMyUser(GetMyUserBlocEvent event,emit) async{

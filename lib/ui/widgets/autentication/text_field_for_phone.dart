@@ -9,17 +9,18 @@ import '../../../bloc/phone_bloc/phone_state.dart';
 class TextFieldForPhone extends StatefulWidget {
   PhoneNumber number;
   TextEditingController phoneController;
-  TextFieldForPhone({super.key,required this.number,required this.phoneController,});
+  TextEditingController countryCode;
+  TextFieldForPhone({super.key,required this.number,required this.phoneController,required this.countryCode,});
 
   @override
   State<TextFieldForPhone> createState() => _TextFieldForPhoneState();
 }
 
 class _TextFieldForPhoneState extends State<TextFieldForPhone> {
-  String _dialCode = "+998";
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,7 +33,7 @@ class _TextFieldForPhoneState extends State<TextFieldForPhone> {
             return null;
           },
           onInputChanged: (PhoneNumber number) {
-            _dialCode = number.dialCode.toString();
+            widget.countryCode.text = number.dialCode.toString();
           },
           selectorConfig: SelectorConfig(
             selectorType: PhoneInputSelectorType.BOTTOM_SHEET,

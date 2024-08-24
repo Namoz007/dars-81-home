@@ -1,7 +1,7 @@
 import 'package:dars_81_home/bloc/authentication/authentIcation_event.dart';
 import 'package:dars_81_home/bloc/authentication/authentication_bloc.dart';
 import 'package:dars_81_home/bloc/authentication/authentication_state.dart';
-import 'package:dars_81_home/data/model/registration_request.dart';
+import 'package:dars_81_home/data/model/registration_model.dart';
 import 'package:dars_81_home/ui/screens/dashboards/dashboard.dart';
 import 'package:dars_81_home/ui/widgets/app_logo.dart';
 import 'package:dars_81_home/ui/widgets/autentication/registration_fields.dart';
@@ -23,6 +23,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _password = TextEditingController();
   final _confirmPassword = TextEditingController();
   final TextEditingController _phoneControllerr = TextEditingController();
+  final _countryCode = TextEditingController();
   PhoneNumber _number = PhoneNumber(isoCode: 'UZ');
   bool _checkBox = false;
 
@@ -86,6 +87,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       password: _password,
                       confirmPassword: _confirmPassword,
                       initialNumber: _number,
+                      countryCode: _countryCode,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -129,90 +131,70 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               BlocConsumer<AuthenticationBloc, AuthenticationState>(
                   listener: (context, state) {
-                if (state is ErrorAuthenticationState) {
-                  if (state.message == '')
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Dashboard()));
-                }
-              }, builder: (context, state) {
-                if (state is InitialAuthenticationState ||
-                    state is ErrorAuthenticationState) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          int roleId = 0;
-                          if(!_checkBox){
-                            roleId = 1;
+                // if (state is ErrorAuthenticationState) {
+                //   if (state.message == '')
+                //     Navigator.pushReplacement(context,
+                //         MaterialPageRoute(builder: (context) => Dashboard()));
+                // }
+              },
+                  builder: (context, state) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        int roleId = 0;
+                        if(!_checkBox){
+                          roleId = 1;
+                        }else{
+                          if(selectedValue == 'Teacher'){
+                            roleId = 2;
                           }else{
-                            if(selectedValue == 'Teacher'){
-                              roleId = 2;
-                            }else{
-                              roleId = 3;
-                            }
+                            roleId = 3;
                           }
-                          if (_formKey.currentState!.validate()) {
-                            context.read<AuthenticationBloc>().add(
-                                  SignUpAuthenticationEvent(
-                                    query: RegistrationRequest(
-                                        name: _name.text,
-                                        phoneNumber: _phoneControllerr.text,
-                                        password: _password.text,
-                                        confirmPassword: _confirmPassword.text,
-                                      roleId: roleId.toString(),
-                                    ),
-                                  ),
-                                );
-                          }
-                        },
-                        child: Container(
-                          height: 48,
-                          width: 145,
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.blueAccent,
-                          ),
-                          alignment: Alignment.center,
-                          child: BlocBuilder<AuthenticationBloc,
-                              AuthenticationState>(builder: (context, state) {
-                            if (state is LoadingAuthenticationState) {
-                              return const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.red,
-                                ),
-                              );
-                            }
-
-                            return const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Next Step",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Icon(
-                                  CupertinoIcons.arrow_right,
-                                  color: Colors.white,
-                                )
-                              ],
-                            );
-                          }),
+                        }
+                        if (_formKey.currentState!.validate()) {
+                          context.read<AuthenticationBloc>().add(SignUpAuthenticationEvent(model: RegistrationModel(name: _name.text, phoneNumber: "${_countryCode.text}${_phoneControllerr.text.replaceAll(' ', '')}", password: _password.text,roleId: roleId,),),);
+                        }
+                      },
+                      child: Container(
+                        height: 48,
+                        width: 145,
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.blueAccent,
                         ),
-                      )
-                    ],
-                  );
-                }
-
-                return Container();
+                        alignment: Alignment.center,
+                        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(builder: (context, state) {
+                              if(state is LoadingAuthenticationState){
+                                return const Center(child: CircularProgressIndicator(color: Colors.red,),);
+                              }
+                          return const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Next Step",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                CupertinoIcons.arrow_right,
+                                color: Colors.white,
+                              )
+                            ],
+                          );
+                        }),
+                      ),
+                    )
+                  ],
+                );
               }),
             ],
           ),

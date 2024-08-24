@@ -1,3 +1,4 @@
+import 'package:dars_81_home/bloc/authentication/authentIcation_event.dart';
 import 'package:dars_81_home/bloc/authentication/authentication_bloc.dart';
 import 'package:dars_81_home/bloc/authentication/authentication_state.dart';
 import 'package:dars_81_home/ui/screens/authentication/sign_in_screen.dart';
@@ -12,6 +13,7 @@ class RegistrationFields extends StatefulWidget {
   TextEditingController password;
   TextEditingController confirmPassword;
   PhoneNumber initialNumber;
+  TextEditingController countryCode;
 
   RegistrationFields({
     super.key,
@@ -20,6 +22,7 @@ class RegistrationFields extends StatefulWidget {
     required this.password,
     required this.confirmPassword,
     required this.initialNumber,
+    required this.countryCode,
   });
 
   @override
@@ -70,6 +73,7 @@ class _RegistrationFieldsState extends State<RegistrationFields> {
         RegistrationPhoneInputs(
           phoneNumberController: widget.phoneNumber,
           initialNumber: widget.initialNumber,
+          countryCode: widget.countryCode,
         ),
         const Text(
           "Password",
@@ -133,7 +137,21 @@ class _RegistrationFieldsState extends State<RegistrationFields> {
           ),
         ),
         const SizedBox(height: 10),
-        InkWell(onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInScreen()));},child: const Center(child: Text("Login",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue,),)),)
+        InkWell(
+          onTap: () {
+            context.read<AuthenticationBloc>().add(ClearErrorMessageAuthenticationEvent());
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const SignInScreen()));
+          },
+          child: const Center(
+              child: Text(
+            "Login",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
+            ),
+          )),
+        )
       ],
     );
   }

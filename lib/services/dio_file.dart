@@ -25,6 +25,7 @@ class DioInterceptors extends Interceptor {
     if(options.uri.toString() != "${options.baseUrl}/login" && options.uri.toString() != "${options.baseUrl}/register"){
       final pref = await SharedPreferences.getInstance();
       final token = pref.getString("token");
+      
       options.headers["Authorization"] = 'Bearer $token';
     }
 
