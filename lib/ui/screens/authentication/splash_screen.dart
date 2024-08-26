@@ -28,10 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<AuthenticationBloc,AuthenticationState>(
-        builder: (context, state) {
-          return const Center(child: Text("CRM SYSTEM",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue,fontSize: 22),),);
-        },
+      body: BlocListener<AuthenticationBloc,AuthenticationState>(
         listener: (context, state) {
           if(state is AuthenticatedAuthenticationState){
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Dashboard()));
@@ -44,8 +41,10 @@ class _SplashScreenState extends State<SplashScreen> {
           if(state is ComedUserAuthenticationState){
             context.read<UserBloc>().add(ComedUserBlocEvent(state.userModel));
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Dashboard()));
+
           }
         },
+        child: const Center(child: Text("CRM SYSTEM",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue,fontSize: 22),),),
       ),
     );
   }

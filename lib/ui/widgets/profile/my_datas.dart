@@ -24,6 +24,7 @@ class _MyDatasState extends State<MyDatas> {
   final _name = TextEditingController();
   final _countryCode = TextEditingController();
   PhoneNumber _number = PhoneNumber(isoCode: "UZ",dialCode: '+998');
+  String? error;
 
   File? _image;
   final ImagePicker _picker = ImagePicker();
@@ -104,6 +105,7 @@ class _MyDatasState extends State<MyDatas> {
                 "${widget.model.name}",
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
               ),
+              error == null ? const SizedBox() : Center(child: Text("$error",style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.red,),),),
               const Divider(),
               const SizedBox(
                 height: 20,
@@ -190,7 +192,7 @@ class _MyDatasState extends State<MyDatas> {
                 children: [
                   FilledButton(
                     onPressed: () {
-                      if(_formKey.currentState!.validate()){
+                      if(_formKey.currentState!.validate() && (_email.text == null || _email.text == 'null')){
                         context.read<UserBloc>().add(UpdateMyUserBlocEvent(imgFile: _image == null ? null : _image, name: _name.text == widget.model.name ? _name.text : _name.text,email: _email.text == widget.model.email.toString() ? _email.text : _email.text,phoneNumber: _phoneNumber.text == widget.model.phone ? widget.model.phone : "${_number.dialCode}${_phoneNumber.text.replaceAll(' ', '')}"));
                       }
                     },

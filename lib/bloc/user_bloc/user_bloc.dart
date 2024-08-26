@@ -19,7 +19,7 @@ class UserBloc extends Bloc<UserBlocEvent,UserBlocState>{
 
   void _comedUser(ComedUserBlocEvent event,emit){
     model = event.userModel;
-    emit(LoadedUserBlocState(model!));
+    // emit(LoadedUserBlocState(model!));
   }
 
   void _logOutUser(LogOutUserBlocEvent event,emit) {
