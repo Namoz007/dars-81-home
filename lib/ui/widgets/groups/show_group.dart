@@ -163,8 +163,20 @@ class _ShowGroupState extends State<ShowGroup> {
                   color: Colors.grey,
                 ),
               ),
+              
             ],
           ),
+          
+          const SizedBox(height: 10,),
+          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Group subject:",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14,),),
+              
+              Text("${widget.group.subject.name}",style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.grey,),)
+            ],
+          )
         ],
       ),
     );

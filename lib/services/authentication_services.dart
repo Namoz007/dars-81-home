@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dars_81_home/data/model/login_request_model.dart';
 import 'package:dars_81_home/data/model/registration_model.dart';
+import 'package:dars_81_home/data/model/social_login_request.dart';
 import 'package:dars_81_home/data/model/user_model.dart';
 import 'package:dars_81_home/services/dio_file.dart';
 import 'package:dars_81_home/utils/app_utils.dart';
@@ -70,6 +71,21 @@ class AuthenticationServices {
     } catch (e) {
       print("Error:  $e");
       rethrow;
+    }
+  }
+
+  Future<String?> socialLogin(SocialLoginRequest request) async{
+    try {
+      final response = await _dio.post(
+        '/social-login',
+        data: request.toMap(),
+      );
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString("token", "${response.data['data']['token']}");
+    } on DioException catch (e) {
+      return "Something went wrong!";
+    } catch (e) {
+      return "Something went wrong!";
     }
   }
 }

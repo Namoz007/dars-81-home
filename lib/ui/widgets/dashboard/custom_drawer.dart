@@ -8,7 +8,7 @@ import 'package:dars_81_home/ui/screens/authentication/sign_in_screen.dart';
 import 'package:dars_81_home/ui/screens/dashboards/dashboard.dart';
 import 'package:dars_81_home/ui/screens/groups_screen/groups_screen.dart';
 import 'package:dars_81_home/ui/screens/rooms/rooms_screen.dart';
-import 'package:dars_81_home/ui/screens/time_table_screen/time_table_screen.dart';
+import 'package:dars_81_home/ui/subjects/subjects_screen.dart';
 import 'package:dars_81_home/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,11 +68,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
           InkWell(
             onTap: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TimeTableScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SubjectsScreen()));
             },
             child: const ListTile(
-              title: Text("Timetables"),
-              trailing:Icon(Icons.arrow_forward_ios),
+              title: Text("Subjects"),
+              trailing: Icon(Icons.arrow_forward_ios),
             ),
           ),
 

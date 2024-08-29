@@ -1,4 +1,7 @@
+import 'package:dars_81_home/data/model/class_model.dart';
+import 'package:dars_81_home/data/model/subject_model.dart';
 import 'package:dars_81_home/data/model/teacher.dart';
+import 'package:flutter/material.dart';
 
 class Group {
   final int id;
@@ -10,6 +13,8 @@ class Group {
   Teacher mainTeacher;
   Teacher assistantTeacher;
   List<Student> students;
+  SubjectModel subject;
+  List<ClassModel> clesses;
 
   Group({
     required this.id,
@@ -21,6 +26,8 @@ class Group {
     required this.mainTeacher,
     required this.assistantTeacher,
     required this.students,
+    required this.subject,
+    required this.clesses,
   });
 
   // toMap method
@@ -35,10 +42,10 @@ class Group {
       'main_teacher': mainTeacher.toMap(),
       'assistant_teacher': assistantTeacher.toMap(),
       'students': students.map((student) => student.toMap()).toList(),
+      "classes": [for(int i = 0;i < clesses.length;i++) clesses[i].toJson()],
     };
   }
 
-  // fromJson factory
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
       id: json['id'],
@@ -52,11 +59,12 @@ class Group {
       students: json['students'] == null ? [] : (json['students'] as List)
           .map((studentJson) => Student.fromJson(studentJson))
           .toList(),
+      subject: SubjectModel.fromJson(json['subject_id']),
+      clesses: [for(int i = 0;i < json['classes'].length;i++) ClassModel.fromJson(json['classes'][i])],
     );
   }
 }
 
-// Agar Student modelingiz ham kerak bo'lsa, shunday ko'rinishda yozishingiz mumkin:
 class Student {
   final int id;
   final String name;
@@ -66,7 +74,6 @@ class Student {
     required this.name,
   });
 
-  // toMap method
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -74,7 +81,6 @@ class Student {
     };
   }
 
-  // fromJson factory
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
       id: json['id'],

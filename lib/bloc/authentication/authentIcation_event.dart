@@ -1,3 +1,4 @@
+import 'package:dars_81_home/bloc/authentication/authentication_bloc.dart';
 import 'package:dars_81_home/data/model/login_request_model.dart';
 import 'package:dars_81_home/data/model/registration_model.dart';
 
@@ -26,3 +27,9 @@ final class ForgotPasswordAuthenticationEvent extends AuthenticationEvent{
 }
 
 final class LogOutAuthenticationEvent extends AuthenticationEvent{}
+
+final class SocialLoginAuthenticationEvent extends AuthenticationEvent{
+  SocialLoginTypes type;
+
+  SocialLoginAuthenticationEvent({required this.type,});
+}

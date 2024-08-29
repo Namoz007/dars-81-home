@@ -30,7 +30,7 @@ class AvailableHour {
       endTime: json['end_time'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
-      day: Day.fromJson(json['day']),
+      day: Day.fromJson(json['day.dart']),
     );
   }
 
@@ -43,7 +43,7 @@ class AvailableHour {
       'end_time': endTime,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
-      'day': day.toJson(),
+      'day.dart': day.toJson(),
     };
   }
 }

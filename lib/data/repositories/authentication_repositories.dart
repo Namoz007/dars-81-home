@@ -1,5 +1,6 @@
 import 'package:dars_81_home/data/model/login_request_model.dart';
 import 'package:dars_81_home/data/model/registration_model.dart';
+import 'package:dars_81_home/data/model/social_login_request.dart';
 import 'package:dars_81_home/data/model/user_model.dart';
 import 'package:dars_81_home/services/authentication_services.dart';
 import 'package:dars_81_home/utils/internet_analist.dart';
@@ -40,5 +41,9 @@ class AuthenticationRepositories{
 
   Future<void> logOut() async{
     await _services.logout();
+  }
+
+  Future<String?> socialLogin(SocialLoginRequest request) async{
+    return await _services.socialLogin(request);
   }
 }

@@ -3,11 +3,15 @@ import 'package:dars_81_home/bloc/admin_bloc/admin_bloc_event.dart';
 import 'package:dars_81_home/bloc/admin_bloc/admin_bloc_state.dart';
 import 'package:dars_81_home/bloc/group_bloc/group_bloc.dart';
 import 'package:dars_81_home/bloc/group_bloc/group_bloc_event.dart';
+import 'package:dars_81_home/bloc/subject_bloc/subject_bloc.dart';
+import 'package:dars_81_home/bloc/subject_bloc/subject_bloc_state.dart';
 import 'package:dars_81_home/data/model/group.dart';
+import 'package:dars_81_home/data/model/subject_model.dart';
 import 'package:dars_81_home/data/model/teacher.dart';
 import 'package:dars_81_home/data/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class UpdateGroup extends StatefulWidget {
   bool isUpdate;
@@ -24,6 +28,7 @@ class _UpdateGroupState extends State<UpdateGroup> {
   Teacher? _mainTeacher;
   Teacher? _assistantTeacher;
   Student _selectStudent = Student(id: 0, name: "Choose Students");
+  SubjectModel? _subjectModel;
   List<Student> _students = [];
   List<int> studentsId = [];
   String? error;
@@ -37,6 +42,7 @@ class _UpdateGroupState extends State<UpdateGroup> {
       _groupNewName.text = widget.group!.name;
       _students = widget.group!.students;
       studentsId.addAll(widget.group!.students.map((_element) => _element.id));
+      _subjectModel = widget.group!.subject;
     }
   }
 
@@ -221,6 +227,55 @@ class _UpdateGroupState extends State<UpdateGroup> {
                             });
                           },
                         ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        BlocBuilder<SubjectBloc, SubjectBlocState>(
+                          builder: (context, state) {
+                            if (state is LoadedAllSubjectsSubjectBlocState) {
+                              if(_subjectModel == null && state.subjects.length != 0){
+                                _subjectModel = state.subjects[0];
+                              }
+                              return DropdownButtonFormField<SubjectModel>(
+                                // value: _subjectModel,
+                                decoration: const InputDecoration(
+                                  labelText: 'Subjects',
+                                ),
+                                items: [
+                                  ...state.subjects.map(
+                                    (subject) => DropdownMenuItem<SubjectModel>(
+                                      value: subject,
+                                      child: Text(
+                                        subject.name,
+                                        style: TextStyle(
+                                          color: subject.id == _subjectModel!.id
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                                onChanged: (value) {
+                                  setState(() {
+                                    _subjectModel = value;
+                                  });
+                                },
+                              );
+                            }
+
+                            return Shimmer.fromColors(
+                              child: Container(
+                                width: double.infinity,
+                                height: 20,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                              ),
+                              baseColor: Colors.grey,
+                              highlightColor: Colors.white,
+                            );
+                          },
+                        ),
                       ],
                     ),
                   );
@@ -246,22 +301,28 @@ class _UpdateGroupState extends State<UpdateGroup> {
                 widget.group!.updatedAt = DateTime.now();
                 widget.group!.mainTeacherId = _mainTeacher!.id;
                 widget.group!.assistantTeacherId = _assistantTeacher!.id;
+                widget.group!.subject = _subjectModel!;
                 context
                     .read<GroupBloc>()
                     .add(UpdateGroupBlocEvent(widget.group!));
               } else {
-                final group = Group(
-                  id: 0,
-                  name: _groupNewName.text,
-                  mainTeacherId: _mainTeacher!.id,
-                  assistantTeacherId: _assistantTeacher!.id,
-                  createdAt: DateTime.now(),
-                  updatedAt: DateTime.now(),
-                  mainTeacher: _mainTeacher!,
-                  assistantTeacher: _assistantTeacher!,
-                  students: _students,
-                );
-                context.read<GroupBloc>().add(CreateNewGroupBlocEvent(group));
+                // context.read<GroupBloc>().add(
+                //       CreateNewGroupBlocEvent(
+                //         Group(
+                //           id: 0,
+                //           name: _groupNewName.text,
+                //           mainTeacherId: _mainTeacher!.id,
+                //           assistantTeacherId: _assistantTeacher!.id,
+                //           createdAt: DateTime.now(),
+                //           updatedAt: DateTime.now(),
+                //           mainTeacher: _mainTeacher!,
+                //           assistantTeacher: _assistantTeacher!,
+                //           students: _students,
+                //           subject: _subjectModel!,
+                //           clesses:
+                //         ),
+                //       ),
+                //     );
               }
               Navigator.pop(context);
             }

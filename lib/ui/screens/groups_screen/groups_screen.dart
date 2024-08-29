@@ -4,12 +4,16 @@ import 'package:dars_81_home/bloc/admin_bloc/admin_bloc_state.dart';
 import 'package:dars_81_home/bloc/group_bloc/grou_bloc_state.dart';
 import 'package:dars_81_home/bloc/group_bloc/group_bloc.dart';
 import 'package:dars_81_home/bloc/group_bloc/group_bloc_event.dart';
+import 'package:dars_81_home/bloc/subject_bloc/subject_bloc.dart';
+import 'package:dars_81_home/bloc/subject_bloc/subject_bloc_event.dart';
+import 'package:dars_81_home/ui/screens/groups_screen/show_group.dart';
 import 'package:dars_81_home/ui/widgets/groups/show_group.dart';
 import 'package:dars_81_home/ui/widgets/groups/update_group.dart';
 import 'package:dars_81_home/ui/widgets/dashboard/custom_drawer.dart';
 import 'package:dars_81_home/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class GroupsScreen extends StatefulWidget {
   const GroupsScreen({super.key});
@@ -24,6 +28,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
     super.initState();
     context.read<GroupBloc>().add(GetAllGroupsGroupBlocEvent());
     context.read<AdminBloc>().add(GetAllMyTeachersStudentsAdminBlocEvent());
+    context.read<SubjectBloc>().add(GetAllSubjectBlocEvent());
   }
 
   @override
@@ -52,15 +57,23 @@ class _GroupsScreenState extends State<GroupsScreen> {
       drawer: const CustomDrawer(),
       body: RefreshIndicator(
         onRefresh: () async {
-          context.read<GroupBloc>().add(GetAllGroupFromServicesGroupBlocEvent());
+          context
+              .read<GroupBloc>()
+              .add(GetAllGroupFromServicesGroupBlocEvent());
         },
         child: BlocBuilder<GroupBloc, GroupBlocState>(
           builder: (context, state) {
             if (state is LoadingGroupBlocState) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.red,
-                ),
+              return Shimmer.fromColors(
+                direction: ShimmerDirection.ttb,
+                  child: Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    height: 200,
+                    color: Colors.white,
+                  ),
+                  baseColor: Colors.grey,
+                  highlightColor: Colors.white,
               );
             }
 
@@ -72,8 +85,13 @@ class _GroupsScreenState extends State<GroupsScreen> {
                   : ListView.builder(
                       itemCount: state.groups.length,
                       itemBuilder: (context, index) {
-                        return ShowGroup(
-                          group: state.groups[index],
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ShowGroupScreen(group: state.groups[index])));
+                          },
+                          child: ShowGroup(
+                            group: state.groups[index],
+                          ),
                         );
                       },
                     );

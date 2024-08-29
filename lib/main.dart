@@ -3,6 +3,7 @@ import 'package:dars_81_home/bloc/authentication/authentication_bloc.dart';
 import 'package:dars_81_home/bloc/group_bloc/group_bloc.dart';
 import 'package:dars_81_home/bloc/phone_bloc/phone_bloc.dart';
 import 'package:dars_81_home/bloc/room_bloc/room_bloc.dart';
+import 'package:dars_81_home/bloc/subject_bloc/subject_bloc.dart';
 import 'package:dars_81_home/bloc/time_table_bloc/time_table_bloc.dart';
 import 'package:dars_81_home/bloc/user_bloc/user_bloc.dart';
 import 'package:dars_81_home/bloc/working_hour_bloc/working_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:dars_81_home/data/repositories/authentication_repositories.dart'
 import 'package:dars_81_home/data/repositories/group_repositories.dart';
 import 'package:dars_81_home/data/repositories/room_repositories.dart';
 import 'package:dars_81_home/data/repositories/phone_number_repositories.dart';
+import 'package:dars_81_home/data/repositories/subject_repositories.dart';
 import 'package:dars_81_home/data/repositories/time_table_repositories.dart';
 import 'package:dars_81_home/data/repositories/user_repositories.dart';
 import 'package:dars_81_home/data/repositories/working_repositories.dart';
@@ -19,6 +21,7 @@ import 'package:dars_81_home/services/authentication_services.dart';
 import 'package:dars_81_home/services/group_services.dart';
 import 'package:dars_81_home/services/room_services.dart';
 import 'package:dars_81_home/services/phone_number_services.dart';
+import 'package:dars_81_home/services/subject_services.dart';
 import 'package:dars_81_home/services/time_table_services.dart';
 import 'package:dars_81_home/services/user_services.dart';
 import 'package:dars_81_home/services/working_services.dart';
@@ -51,6 +54,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (context) => GroupRepositories(services: GroupServices())),
         RepositoryProvider(create: (context) => WorkingRepositories(services: WorkingServices())),
         RepositoryProvider(create: (context) => TimeTableRepositories(services: TimeTableServices())),
+        RepositoryProvider(create: (context) => SubjectRepositories(services: SubjectServices())),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -61,7 +65,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => RoomBloc(repositories: context.read<RoomRepositories>())),
           BlocProvider(create: (context) => GroupBloc(repo: context.read<GroupRepositories>())),
           BlocProvider(create: (context) => WorkingBloc(repo: context.read<WorkingRepositories>())),
-          BlocProvider(create: (context) => TimeTableBloc(repo: context.read<TimeTableRepositories>()))
+          BlocProvider(create: (context) => TimeTableBloc(repo: context.read<TimeTableRepositories>())),
+          BlocProvider(create: (context) => SubjectBloc(repo: context.read<SubjectRepositories>()))
         ],
         child: const MaterialApp(
           debugShowCheckedModeBanner: false,

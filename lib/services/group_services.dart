@@ -1,3 +1,5 @@
+
+import 'package:dars_81_home/data/model/class_model.dart';
 import 'package:dars_81_home/data/model/group.dart';
 import 'package:dars_81_home/services/dio_file.dart';
 import 'package:dars_81_home/utils/app_utils.dart';
@@ -6,6 +8,7 @@ class GroupServices{
   final _dio = DioFile.getInstance().dio;
 
   Future<List<Group>> getAllGroups() async {
+    List<Group> _groups = [];
     dynamic response = '';
     if(AppUtils.userModel!.roleId == 3){
       response = await _dio.get("/groups");
@@ -13,7 +16,15 @@ class GroupServices{
       response = await _dio.get("/student/groups");
     }
     List<dynamic> datas = response.data['data'];
-    return [for (int i = 0; i < datas.length; i++) Group.fromJson(datas[i])];
+    for(int i = 0;i < datas.length;i++){
+      print('bu datas ${datas[i]['classes']}');
+      // for(int j = 0;j < datas[i]['classes'].length; j++){
+      //   ClassModel.fromJson(datas[i]['classes'][j]);
+      // }
+      // datas[i]['subject_id'] = _subject.data['data'];
+      // _groups.add(Group.fromJson(datas[i]));
+    }
+    return _groups;
   }
 
   Future<void> deleteGroup(int id) async{
@@ -26,11 +37,12 @@ class GroupServices{
       data: {
         "name": "${group.name}",
         "main_teacher_id": group.mainTeacherId,
-        "assistant_teacher_id": group.assistantTeacherId
+        "assistant_teacher_id": group.assistantTeacherId,
+        "subject_id": group.subject.id,
       },
     );
     await addStudentToGroup(response.data['data']['id'], group.students);
-    return Group(id: response.data['data']['id'], name: group.name, mainTeacherId: group.mainTeacherId, assistantTeacherId: group.assistantTeacherId, createdAt: group.createdAt, updatedAt: group.updatedAt, mainTeacher: group.mainTeacher, assistantTeacher: group.assistantTeacher, students: group.students);
+    return Group(id: response.data['data']['id'], name: group.name, mainTeacherId: group.mainTeacherId, assistantTeacherId: group.assistantTeacherId, createdAt: group.createdAt, updatedAt: group.updatedAt, mainTeacher: group.mainTeacher, assistantTeacher: group.assistantTeacher, students: group.students,subject: group.subject,clesses: group.clesses,);
   }
 
   Future<void> updateGroup(Group group) async{
@@ -39,7 +51,8 @@ class GroupServices{
       data: {
         "name": "${group.name}",
         "main_teacher_id": group.mainTeacherId,
-        "assistant_teacher_id": group.assistantTeacherId
+        "assistant_teacher_id": group.assistantTeacherId,
+        "subject_id": group.subject.id,
       },
     );
     await addStudentToGroup(group.id, group.students);

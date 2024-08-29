@@ -15,7 +15,7 @@ class AdminServices {
   Future<List<UserModel>> getAllUsers() async {
     final response = await _dio.get('/users');
     List<dynamic> datas = response.data['data'];
-    for (int i = 0; i < datas.length; i++) UserModel.fromJson(datas[i]);
+    // for (int i = 0; i < datas.length; i++) UserModel.fromJson(datas[i]);
     return [
       for (int i = 0; i < datas.length; i++) UserModel.fromJson(datas[i])
     ];
