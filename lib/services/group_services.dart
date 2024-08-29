@@ -17,12 +17,11 @@ class GroupServices{
     }
     List<dynamic> datas = response.data['data'];
     for(int i = 0;i < datas.length;i++){
-      print('bu datas ${datas[i]['classes']}');
-      // for(int j = 0;j < datas[i]['classes'].length; j++){
-      //   ClassModel.fromJson(datas[i]['classes'][j]);
-      // }
-      // datas[i]['subject_id'] = _subject.data['data'];
-      // _groups.add(Group.fromJson(datas[i]));
+      if(datas[i]['subject_id'] != null && datas[i]['subject_id'] != 'null' && datas[i]['classes'].length != 0){
+        final subject = await _dio.get("/subjects/${datas[i]['subject_id']}");
+        datas[i]['subject_id'] = subject.data['data'];
+        _groups.add(Group.fromJson(datas[i]));
+      }
     }
     return _groups;
   }
@@ -42,7 +41,7 @@ class GroupServices{
       },
     );
     await addStudentToGroup(response.data['data']['id'], group.students);
-    return Group(id: response.data['data']['id'], name: group.name, mainTeacherId: group.mainTeacherId, assistantTeacherId: group.assistantTeacherId, createdAt: group.createdAt, updatedAt: group.updatedAt, mainTeacher: group.mainTeacher, assistantTeacher: group.assistantTeacher, students: group.students,subject: group.subject,clesses: group.clesses,);
+    return Group(id: response.data['data']['id'], name: group.name, mainTeacherId: group.mainTeacherId, assistantTeacherId: group.assistantTeacherId, createdAt: group.createdAt, updatedAt: group.updatedAt, mainTeacher: group.mainTeacher, assistantTeacher: group.assistantTeacher, students: group.students,subject: group.subject,classes: group.classes,);
   }
 
   Future<void> updateGroup(Group group) async{

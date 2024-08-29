@@ -18,6 +18,14 @@ class ShowGroup extends StatefulWidget {
 }
 
 class _ShowGroupState extends State<ShowGroup> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    print("bu claslar ${widget.group.classes}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -176,7 +184,55 @@ class _ShowGroupState extends State<ShowGroup> {
               
               Text("${widget.group.subject.name}",style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.grey,),)
             ],
-          )
+          ),
+          const SizedBox(height: 10,),
+         for(int i = 0; i < widget.group.classes.length; i++)
+           Column(
+             children: [
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 children: [
+                   Text("${i + 1}.Group Class:",style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 14,),),
+
+                   Text("${widget.group.classes[0].room.name}",style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.grey,),)
+                 ],
+               ),
+               const SizedBox(height: 10,),
+
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                 children: [
+                   const Text("Lesson day:",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14,),),
+
+                   Text("${widget.group.classes[0].day.name}",style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.grey,),)
+                 ],
+               ),
+               const SizedBox(height: 10,),
+
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                 children: [
+                   const Text("Lesson start time:",style:TextStyle(fontWeight: FontWeight.bold,fontSize: 14,),),
+
+                   Text("${widget.group.classes[0].startTime}",style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.grey,),)
+                 ],
+               ),
+
+               const SizedBox(height: 10,),
+
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                 children: [
+                   const Text("Lesson end time:",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14,),),
+
+                   Text("${widget.group.classes[0].endTime}",style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.grey,),)
+                 ],
+               ),
+             ],
+           )
         ],
       ),
     );

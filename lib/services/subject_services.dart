@@ -11,7 +11,8 @@ class SubjectServices {
   }
 
   Future<void> updateSubject(SubjectModel subject) async {
-    await _dio.put("/subjects/${subject.id}",data: {
+    print('bu subject id${subject.id}');
+    final response = await _dio.put("/subjects/${subject.id}",data: {
       'name': subject.name,
     },);
   }

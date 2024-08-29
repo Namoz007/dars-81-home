@@ -302,9 +302,7 @@ class _UpdateGroupState extends State<UpdateGroup> {
                 widget.group!.mainTeacherId = _mainTeacher!.id;
                 widget.group!.assistantTeacherId = _assistantTeacher!.id;
                 widget.group!.subject = _subjectModel!;
-                context
-                    .read<GroupBloc>()
-                    .add(UpdateGroupBlocEvent(widget.group!));
+                context.read<GroupBloc>().add(UpdateGroupBlocEvent(widget.group!));
               } else {
                 // context.read<GroupBloc>().add(
                 //       CreateNewGroupBlocEvent(

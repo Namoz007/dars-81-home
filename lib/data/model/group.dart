@@ -1,4 +1,5 @@
 import 'package:dars_81_home/data/model/class_model.dart';
+import 'package:dars_81_home/data/model/room_model.dart';
 import 'package:dars_81_home/data/model/subject_model.dart';
 import 'package:dars_81_home/data/model/teacher.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class Group {
   Teacher assistantTeacher;
   List<Student> students;
   SubjectModel subject;
-  List<ClassModel> clesses;
+  List<ClassModel> classes;
 
   Group({
     required this.id,
@@ -27,7 +28,7 @@ class Group {
     required this.assistantTeacher,
     required this.students,
     required this.subject,
-    required this.clesses,
+    required this.classes,
   });
 
   // toMap method
@@ -42,7 +43,8 @@ class Group {
       'main_teacher': mainTeacher.toMap(),
       'assistant_teacher': assistantTeacher.toMap(),
       'students': students.map((student) => student.toMap()).toList(),
-      "classes": [for(int i = 0;i < clesses.length;i++) clesses[i].toJson()],
+      "subject_id": subject.id,
+      "classes": [for(int i = 0;i < classes.length;i++) classes[i].toJson()],
     };
   }
 
@@ -60,7 +62,7 @@ class Group {
           .map((studentJson) => Student.fromJson(studentJson))
           .toList(),
       subject: SubjectModel.fromJson(json['subject_id']),
-      clesses: [for(int i = 0;i < json['classes'].length;i++) ClassModel.fromJson(json['classes'][i])],
+      classes: [for(int i = 0;i < json['classes'].length;i++) ClassModel.fromJson(json['classes'][i])],
     );
   }
 }

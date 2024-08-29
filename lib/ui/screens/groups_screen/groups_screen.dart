@@ -1,6 +1,5 @@
 import 'package:dars_81_home/bloc/admin_bloc/admin_bloc.dart';
 import 'package:dars_81_home/bloc/admin_bloc/admin_bloc_event.dart';
-import 'package:dars_81_home/bloc/admin_bloc/admin_bloc_state.dart';
 import 'package:dars_81_home/bloc/group_bloc/grou_bloc_state.dart';
 import 'package:dars_81_home/bloc/group_bloc/group_bloc.dart';
 import 'package:dars_81_home/bloc/group_bloc/group_bloc_event.dart';
@@ -64,16 +63,30 @@ class _GroupsScreenState extends State<GroupsScreen> {
         child: BlocBuilder<GroupBloc, GroupBlocState>(
           builder: (context, state) {
             if (state is LoadingGroupBlocState) {
-              return Shimmer.fromColors(
-                direction: ShimmerDirection.ttb,
-                  child: Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    height: 200,
-                    color: Colors.white,
-                  ),
-                  baseColor: Colors.grey,
-                  highlightColor: Colors.white,
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                 return Shimmer(
+                    direction: ShimmerDirection.ltr,
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.grey.shade300,
+                        Colors.grey.shade300,
+                        Colors.white,
+                        Colors.grey.shade300,
+                        Colors.grey.shade400,
+                      ],
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      height: 300,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.red),
+                    ),
+                  );
+                },
               );
             }
 
@@ -87,7 +100,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ShowGroupScreen(group: state.groups[index])));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ShowGroupScreen(
+                                        group: state.groups[index])));
                           },
                           child: ShowGroup(
                             group: state.groups[index],

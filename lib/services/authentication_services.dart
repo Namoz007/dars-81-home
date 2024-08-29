@@ -34,7 +34,6 @@ class AuthenticationServices {
       }
       return 'User already have';
     } catch (e) {
-      print(e);
       return 'Something went wrong!';
     }
     return '';
